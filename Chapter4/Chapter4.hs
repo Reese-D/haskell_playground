@@ -29,3 +29,4 @@ foldrTakeWhile p (x:xs) | not (p x) = []
 foldrTakeWhile p xs = foldr func [] xs
   where func x y | p x = x : y
                  | otherwise = []
+
