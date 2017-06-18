@@ -1,3 +1,5 @@
+module PrettyJSON where
+
 import SimpleJSON
 import Prettify
 import Numeric(showHex)
