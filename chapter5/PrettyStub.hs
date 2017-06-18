@@ -26,5 +26,7 @@ hcat xs = undefined
 fsep :: [Doc] -> Doc
 fsep xs = undefined
 
+punctuate :: Doc -> [Doc] -> [Doc]
+punctuate _ _ = undefined
 
 
