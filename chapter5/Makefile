@@ -12,11 +12,11 @@ Prettify.o:
 simple: SimpleJSON.o Main.o
 	$(CC) -o simple SimpleJSON.o Main.o
 
-SimpleJSON.o: SimpleJSON.hs
+SimpleJSON.o: SimpleJSON.hs Prettify.o
 	$(CC) -c SimpleJSON.hs
 
 Main.o: Main.hs
 	$(CC) -c Main.hs
 
 clean:
-	rm simple Main.o SimpleJSON.o Prettify.o PrettyJSON.o
+	rm simple *\.o *\.hi > /dev/null
