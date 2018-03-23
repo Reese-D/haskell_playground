@@ -15,7 +15,7 @@ myConcat xs = foldr (\x y -> foldr (:) y x) [] xs
 
 
 -- Write your own definition of the standard takeWhile function, first using explicit recursion, then foldr
-myTakeWhile  :: (a -> Bool) -> [a] -> [a]
+myTakeWhile :: (a -> Bool) -> [a] -> [a]
 myTakeWhile _ [] = []
 myTakeWhile _ (x:xs) | null xs = [x]
 myTakeWhile p (x:xs) | not (p x) = []
