@@ -81,8 +81,11 @@ buildTreeInternal opLevel left (x:xs)
 --Move each logical section of code into its own class
 --Write automated tests to verify functionality
 
-tokenizer :: [Char] -> [Tokens]
-tokenizerInternal :: [Char] -> [Tokens] -> [Tokens]
+expander :: [Tokens] -> [Tokens]
+expander x = expanderInternal [] x
+
+expanderInternal :: [Tokens] -> [Tokens] -> [Tokens]
+expanderInternal left (x:y:xs) | getOperatorLevel x == -1 && getOperatorLevel y == -1 = expanderInternal (left ++ [x] ++ (Ctok '*') ++ [y]) xs
 
 --left token to match, right token to match, list of tokens
 matchCharacters :: Token -> Token -> [Tokens] -> [Tokens]
@@ -95,6 +98,6 @@ matchCharactersInternal leftToken rightToken 0 left [] (x:xs) --first token not 
   | extractToken x == extractToken leftToken = matchCharactersInternal leftToken rightToken 1 left [] xs
   | otherwise = matchCharactersInternal leftToken rightToken 0 [left ++ x] [] xs
 matchCharactersInternal leftToken rightToken matchCounter left middle (x:xs) 
-  | extractToken x == extractToken leftToken = matchCharactersInternal leftToken rightToken (matchCounter + 1) (left ++ [x]) xs
-  | extractToken x == extractToken rightToken && matchCounter > 0 = matchCharactersInteral leftToken rightToken (matchCounter - 1) (left ++ [x]) xs
-  | extractToken x == extractToken rightToken = matchCharactersInteral leftToken rightToken (matchCounter - 1) (left ++ [x]) xs -- what do we do with our match?...
+  | extractToken x == extractToken leftToken = matchCharactersInternal leftToken rightToken (matchCounter + 1) (left ++ [x]) xs -- found another left token, increment counter
+  | extractToken x == extractToken rightToken && matchCounter > 0 = matchCharactersInteral leftToken rightToken (matchCounter - 1) (left ++ [x]) xs --we found a match, but we encountered more left tokens previously so just decrement counter
+  | extractToken x == extractToken rightToken = matchCharactersInteral leftToken rightToken (matchCounter - 1) (left ++ [x]) xs -- found a right match, finish
